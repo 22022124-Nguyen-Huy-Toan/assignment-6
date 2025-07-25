@@ -1,0 +1,18 @@
+{
+  "name": "typescript-assignment-6",
+  "version": "1.0.0",
+  "description": "TypeScript assignment covering data types, functions, interfaces, classes, and OOP",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "serve": "npx http-server . -p 3000"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.9",
+    "http-server": "^14.1.1",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0"
+  }
+}
