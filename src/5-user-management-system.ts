@@ -1,33 +1,21 @@
-// ========================================
-// BÀI TẬP TỔNG HỢP: HỆ THỐNG QUẢN LÝ USER
-// ========================================
-
 console.log("=== BÀI TẬP TỔNG HỢP: USER MANAGEMENT SYSTEM ===\n");
-
-// ========================================
-// 1. ĐỊNH NGHĨA TYPES/INTERFACES
-// ========================================
 
 // Task 1: Interface 'User'
 interface User {
-  readonly id: number;           // readonly: không thể thay đổi
-  username: string;              // bắt buộc
-  email: string;                 // bắt buộc
-  isActive?: boolean;            // optional
-  role: 'admin' | 'user' | 'guest'; // union type
+  readonly id: number;           
+  username: string;             
+  email: string;                
+  isActive?: boolean;            
+  role: 'admin' | 'user' | 'guest'; 
 }
 
 // Task 2: Type 'UserProfile' kết hợp User
 type UserProfile = User & {
-  birthDate: Date;               // bắt buộc
-  address?: string;              // optional
+  birthDate: Date;               
+  address?: string;            
 };
 
 console.log("✅ Đã định nghĩa User interface và UserProfile type");
-
-// ========================================
-// 2. CLASS VÀ OOP
-// ========================================
 
 // Task 3: Class 'UserAccount' implement interface 'User'
 class UserAccount implements User {
@@ -36,8 +24,7 @@ class UserAccount implements User {
   email: string;
   isActive?: boolean;
   role: 'admin' | 'user' | 'guest';
-  private password: string;      // private property
-
+  private password: string;     
   constructor(
     id: number,
     username: string,
@@ -53,23 +40,19 @@ class UserAccount implements User {
     this.role = role;
     this.isActive = isActive;
 
-    // Validate password ngay khi tạo
     if (!this.validatePassword(password)) {
       throw new Error(`Password for ${role} must be at least ${this.getMinPasswordLength()} characters`);
     }
   }
 
-  // Method validate password - ít nhất 8 ký tự
   validatePassword(password: string): boolean {
     return password.length >= this.getMinPasswordLength();
   }
 
-  // Protected method để subclass có thể override
   protected getMinPasswordLength(): number {
     return 8;
   }
 
-  // Method để thay đổi password
   changePassword(newPassword: string): boolean {
     if (this.validatePassword(newPassword)) {
       this.password = newPassword;
@@ -81,12 +64,10 @@ class UserAccount implements User {
     }
   }
 
-  // Method để check password (không return actual password)
   checkPassword(inputPassword: string): boolean {
     return this.password === inputPassword;
   }
 
-  // Display user info
   displayInfo(): void {
     console.log(`User: ${this.username} (${this.email}) - Role: ${this.role} - Active: ${this.isActive}`);
   }
@@ -108,12 +89,10 @@ class AdminUser extends UserAccount {
     this.permissions = permissions;
   }
 
-  // Override password validation - admin cần ít nhất 12 ký tự
   protected getMinPasswordLength(): number {
     return 12;
   }
 
-  // Method để quản lý permissions
   addPermission(permission: string): void {
     if (!this.permissions.includes(permission)) {
       this.permissions.push(permission);
@@ -130,10 +109,9 @@ class AdminUser extends UserAccount {
   }
 
   getPermissions(): string[] {
-    return [...this.permissions]; // return copy để tránh mutation
+    return [...this.permissions]; 
   }
 
-  // Override display info để show permissions
   displayInfo(): void {
     super.displayInfo();
     console.log(`  Permissions: [${this.permissions.join(', ')}]`);
@@ -142,7 +120,6 @@ class AdminUser extends UserAccount {
 
 console.log("\n✅ Đã tạo UserAccount và AdminUser classes");
 
-// Test classes
 try {
   const regularUser = new UserAccount(1, "john_doe", "john@example.com", "password123", "user");
   regularUser.displayInfo();
@@ -156,22 +133,16 @@ try {
   console.log("Error creating user:", (error as Error).message);
 }
 
-// ========================================
-// 3. FUNCTION VÀ TYPE ASSERTION
-// ========================================
-
 // Task 5: Hàm 'createUser' với Partial<User>
 function createUser(userData: Partial<User>): User {
-  // Type assertion để gán default values
   const defaultUser: User = {
-    id: Date.now(),              // auto-generated ID
+    id: Date.now(),              
     username: userData.username || "default_user",
     email: userData.email || "user@example.com",
-    isActive: userData.isActive ?? true,  // nullish coalescing
+    isActive: userData.isActive ?? true, 
     role: userData.role || 'user'
   };
 
-  // Validate required fields
   if (!userData.username) {
     throw new Error("Username is required");
   }
@@ -183,23 +154,18 @@ function createUser(userData: Partial<User>): User {
     ...defaultUser,
     username: userData.username,
     email: userData.email
-  } as User; // Type assertion
+  } as User; 
 }
 
-// Task 6: Hàm 'formatUserInfo' với type guards
 function formatUserInfo(user: User | UserProfile): string {
-  // Type guard để check nếu object có birthDate property
   if ('birthDate' in user) {
-    // TypeScript biết đây là UserProfile
     const birthDateStr = user.birthDate.toLocaleDateString('vi-VN');
     return `User ${user.username} born on ${birthDateStr}`;
   } else {
-    // TypeScript biết đây là User
     return `User ${user.username} (${user.role})`;
   }
 }
 
-// Alternative type guard function
 function isUserProfile(user: User | UserProfile): user is UserProfile {
   return 'birthDate' in user;
 }
@@ -213,9 +179,7 @@ function formatUserInfoAlternative(user: User | UserProfile): string {
 
 console.log("\n✅ Đã tạo createUser và formatUserInfo functions");
 
-// Test functions
 try {
-  // Test createUser
   const newUser1 = createUser({
     username: "test_user",
     email: "test@example.com"
@@ -230,7 +194,6 @@ try {
   });
   console.log("Created user 2:", formatUserInfo(newUser2));
 
-  // Test UserProfile
   const userProfile: UserProfile = {
     ...newUser1,
     birthDate: new Date("1990-05-15"),
@@ -242,17 +205,9 @@ try {
   console.log("Error in function test:", (error as Error).message);
 }
 
-// ========================================
-// 4. TYPE ANNOTATION VÀ DOM (Simulation)
-// ========================================
-
 console.log("\n=== DOM SIMULATION (Browser environment needed for actual DOM) ===");
 
-// Task 7 & 8: DOM handling simulation
-// Trong môi trường thực tế, code này sẽ chạy trong browser
-
 export function setupFormHandling(): void {
-  // Simulate DOM elements for demonstration
   console.log(`
 // Task 7: DOM Type Assertion Example
 const form = document.getElementById("userForm") as HTMLFormElement;
@@ -294,9 +249,6 @@ form.onsubmit = (e: SubmitEvent) => {
   `);
 }
 
-// ========================================
-// DEMO VÀ TEST TỔNG HỢP
-// ========================================
 
 console.log("\n=== DEMO TỔNG HỢP ===");
 
@@ -329,7 +281,6 @@ for (let i = 0; i < 3; i++) {
   console.log(`  ${formatUserInfo(user)}`);
 }
 
-// Demo 2: Tạo admin user
 console.log("\n2. Creating admin user:");
 const adminData: Partial<User> = {
   username: "super_admin",
@@ -352,7 +303,6 @@ userAccounts.push(adminAccount);
 console.log(`  ${formatUserInfo(adminUser)}`);
 adminAccount.displayInfo();
 
-// Demo 3: UserProfile với birthDate
 console.log("\n3. Creating user profiles:");
 const profileUsers: UserProfile[] = users.slice(0, 2).map(user => ({
   ...user,
@@ -364,23 +314,19 @@ profileUsers.forEach(profile => {
   console.log(`  ${formatUserInfo(profile)}`);
 });
 
-// Demo 4: Password validation
 console.log("\n4. Testing password validation:");
 try {
-  // This should fail - regular user with short password
   new UserAccount(999, "test", "test@test.com", "123", "user");
 } catch (error) {
   console.log(`  Regular user short password: ${(error as Error).message}`);
 }
 
 try {
-  // This should fail - admin with short password  
   new AdminUser(998, "admin_test", "admin@test.com", "shortpass");
 } catch (error) {
   console.log(`  Admin short password: ${(error as Error).message}`);
 }
 
-// Demo 5: Type guards và utility functions
 console.log("\n5. Demonstrating type safety:");
 const mixedUsers: (User | UserProfile)[] = [...users, ...profileUsers];
 

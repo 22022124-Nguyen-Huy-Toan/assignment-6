@@ -37,22 +37,6 @@ console.log(`
    - Web version with DOM interaction
    - Form handling with TypeScript
    - Type-safe HTML manipulation
-
-🌐 WEB DEMO:
-- index.html - Interactive web interface
-- Real form validation
-- Live TypeScript examples
-
-🛠️ COMMANDS:
-- npm install          # Install dependencies
-- npm run build        # Compile TypeScript
-- npm run dev          # Run with ts-node
-- npm run serve        # Start web server
-
-📝 TO RUN EXAMPLES:
-1. Run individual files: npx ts-node src/1-data-types.ts
-2. Run all examples: npm run dev
-3. Web interface: npm run serve (then open localhost:3000)
 `);
 
 console.log("=".repeat(60));
