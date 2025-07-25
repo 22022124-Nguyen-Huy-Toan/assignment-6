@@ -1,7 +1,3 @@
-// ========================================
-// 3. INTERFACE VÀ TYPE
-// ========================================
-
 console.log("=== SECTION 3: INTERFACE & TYPE ===\n");
 
 // Bài 1: Interface 'Car'
@@ -174,8 +170,8 @@ console.log("Role permissions:", permissions);
 
 type IsString<T> = T extends string ? true : false;
 
-type Test1 = IsString<string>;  // true
-type Test2 = IsString<number>;  // false
+type Test1 = IsString<string>;  
+type Test2 = IsString<number>; 
 
 console.log(`
 Interface vs Type:

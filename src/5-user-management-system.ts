@@ -333,21 +333,3 @@ const mixedUsers: (User | UserProfile)[] = [...users, ...profileUsers];
 mixedUsers.forEach((user, index) => {
   console.log(`  User ${index + 1}: ${formatUserInfo(user)}`);
 });
-
-console.log(`\n✅ HOÀN THÀNH BÀI TẬP TỔNG HỢP!
-
-Đã triển khai đầy đủ:
-✓ Types và Interfaces với union types, readonly, optional
-✓ Classes với inheritance, access modifiers, validation
-✓ Functions với generics, overloads, type guards
-✓ Type assertions và DOM handling
-✓ OOP principles: encapsulation, inheritance, polymorphism
-✓ Type safety và error handling
-
-Hệ thống quản lý User có đầy đủ chức năng theo yêu cầu:
-- Tạo user với validation
-- Phân quyền admin/user
-- Password validation theo role
-- Type-safe form handling
-- Comprehensive error handling
-`);
